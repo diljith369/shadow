@@ -9,6 +9,8 @@
 #### Create certs
 #### openssl genrsa -out server.key 2048
 #### openssl -new -x509 -days 1826 -key server.key -out server.crt
+#### go get github.com/PuerkitoBio/goquery
+#### go get github.com/fatih/color
 #### Build Shadow 
 #### Update your shadowserver ip  {shadowserver := "https://ip:port"}
 ##### GOOS=windows GOARCH=386 go build -o shadow.exe shadow.go
