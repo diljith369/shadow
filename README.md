@@ -8,7 +8,7 @@
 ##### cd shadow/src
 #### Create certs
 #### openssl genrsa -out server.key 2048
-#### openssl -new -x509 -days 1826 -key server.key -out server.crt
+#### openssl req -new -x509 -days 1826 -key server.key -out server.crt
 #### go get github.com/PuerkitoBio/goquery
 #### go get github.com/fatih/color
 #### Build Shadow 
