@@ -44,7 +44,7 @@ func main() {
 
 		doc, err := goquery.NewDocumentFromResponse(response)
 		checkerr(err)
-		cnt, _ := doc.Find("form div div div input").Attr("value")
+		cnt, _ := doc.Find("form input").Attr("value")
 
 		if strings.TrimSpace(cnt) == "" {
 			cnt = "ipconfig"
